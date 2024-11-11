@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Mannequin : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class Mannequin : MonoBehaviour
 
     public Transform head;
 
-    public float timeToStop, timeToMove, animationSpeed;
+    public float timeToStop, timeToMove, animationSpeed, attackDistance;
+
+    public UnityEvent OnAttack;
 
     // Variables privadas
     private bool canMove = false;
@@ -47,6 +50,11 @@ public class Mannequin : MonoBehaviour
             head.transform.LookAt(Player.Instance.transform.position);
             animator.speed = animationSpeed;
             audioSource.volume = 1.0f;
+
+            if(Vector3.Distance(transform.position, Player.Instance.transform.position) < attackDistance)
+            {
+                OnAttack.Invoke();
+            }
         }
         else
         {

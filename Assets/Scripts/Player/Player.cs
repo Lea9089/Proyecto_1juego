@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public PlayerAnimations animations;
     
     // Variables privadas
+    private bool isDead = false;
 
 
     // Singleton
@@ -33,13 +34,30 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cameraMovement.Rotation();
-        interactor.Interaction();
+        if (!isDead)
+        {
+            cameraMovement.Rotation();
+            interactor.Interaction();
+        }
+        else
+        {
+            cameraMovement.LookAtTarget();
+        }
+        
     }
 
     private void FixedUpdate()
     {
-        playerMovement.Movement();
-        animations.CheckSpeed();
+        if (!isDead)
+        {
+            playerMovement.Movement();
+            animations.CheckSpeed();
+        }
+        
+    }
+
+    public void IsDead()
+    {
+        isDead = true;
     }
 }
